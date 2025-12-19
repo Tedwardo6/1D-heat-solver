@@ -7,7 +7,7 @@ from matplotlib.animation import FuncAnimation
 L = 20  #length
 dx = 1  # distance between x points
 dt = 1  # time between steps
-alpha = 0.1 # diffusion constant
+alpha = 0.3 # diffusion constant
 xi = 0
 xf = L
 ti = 0
@@ -27,7 +27,7 @@ a = (alpha*dt)/(dx**2)
 
 # set initial condition
 for i in range(xi, K, 1):
-    u[i] = math.sin(dx * i)
+    u[i] = (dx * i)
 for i in range(xi, K, 1):
     x_i[i] = dx * i
 
@@ -41,7 +41,7 @@ ax.set_xlabel("x")
 ax.set_ylabel("u")
 ax.legend()
 ax.set_xlim(x_i[0], x_i[-1])
-ax.set_ylim(-1.2, 1.2)
+ax.set_ylim(min(u), max(u))
 
 def update(frame):
     global u, u_next, u_left, u_right, color_test
@@ -54,8 +54,6 @@ def update(frame):
         surrounding = diff_left + diff_right
         u_next[i] = u[i] - (surrounding * a)
 
-        # printing inside an animation will spam + slow it down; uncomment if you really want it
-        # print(frame, i, float(u.max()), float(u.min()))
 
     u = u_next
     u_next = [0] * K
